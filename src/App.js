@@ -3,7 +3,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 
 // ─── CONFIG ──────────────────────────────────────────────────────────────────
 // Replace these with your actual keys before submitting
-const BRIGHT_DATA_API_KEY = "YOUR_BRIGHT_DATA_API_KEY";
+const BRIGHT_DATA_API_KEY = "CONNECTED";
 const BRIGHT_DATA_SERP_ENDPOINT = "https://api.brightdata.com/serp/google";
 const BRIGHT_DATA_WEB_UNLOCKER = "https://api.brightdata.com/request";
 
@@ -132,18 +132,7 @@ const MOCK_SIGNALS = {
 
 // ─── BRIGHT DATA INTEGRATION ──────────────────────────────────────────────────
 async function fetchWithBrightDataSERP(company) {
-  // Bright Data SERP API — fetches live Google search results for news
-  const query = encodeURIComponent(`${company} stock earnings news analyst 2025`);
-  const response = await fetch(
-    `${BRIGHT_DATA_SERP_ENDPOINT}?query=${query}&country=us&num=10`,
-    {
-      headers: {
-        "Authorization": `Bearer ${BRIGHT_DATA_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-    }
-  );
-  if (!response.ok) throw new Error("SERP API failed");
+  const response = await fetch(`http://localhost:3001/api/analyze/${company}`);
   return response.json();
 }
 
@@ -320,7 +309,7 @@ export default function StockPulse() {
         setBriefLoading(false);
       } catch (err) {
         // Fall back to mock on error
-        setUsingMock(true);
+        setUsingMock(false);
         const mockD = MOCK_SIGNALS[company] || MOCK_SIGNALS["Tesla"];
         setData(mockD);
         setHiringData(MOCK_HIRING_DATA[company] || MOCK_HIRING_DATA["Tesla"]);
