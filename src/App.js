@@ -132,7 +132,7 @@ const MOCK_SIGNALS = {
 
 // ─── BRIGHT DATA INTEGRATION ──────────────────────────────────────────────────
 async function fetchWithBrightDataSERP(company) {
-  const response = await fetch(`http://localhost:3001/api/analyze/${company}`);
+  const response = await fetch(`https://stockpulse-production-1796.up.railway.app/api/analyze/${company}`);
   return response.json();
 }
 
